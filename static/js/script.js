@@ -97,7 +97,7 @@ function setupGamingTextAnimation() {
   const targets = document.querySelectorAll(`
         h1:not(.processed),
         h2:not(.processed),
-        h3:not(.processed),
+        h3:not(.processed):not(.unique-item h3),
         .course-main-title:not(.processed),
         .course-tag:not(.processed),
         .tag-line:not(.processed),

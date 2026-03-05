@@ -1582,6 +1582,123 @@ body {
 }
 
 /* ══════════════════════════════════════════════════════════════════
+       WHAT MAKES US UNIQUE SECTION
+    ══════════════════════════════════════════════════════════════════ */
+
+.unique-section {
+  padding: 100px 5%;
+  background: #0a0a0c;
+  position: relative;
+  overflow: hidden;
+}
+
+.unique-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.unique-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.unique-header h2 {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: 15px;
+}
+
+.unique-header h2 span {
+  color: var(--primary-red);
+}
+
+.unique-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 30px;
+}
+
+.unique-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.unique-item:hover {
+  transform: translateY(-10px);
+  background: rgba(230, 57, 70, 0.05);
+  border-color: var(--primary-red);
+  box-shadow: 0 10px 30px rgba(230, 57, 70, 0.1);
+}
+
+.unique-icon-box {
+  width: 80px;
+  height: 80px;
+  background: rgba(230, 57, 70, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 25px;
+  transition: 0.4s;
+  border: 1px solid rgba(230, 57, 70, 0.2);
+}
+
+.unique-item:hover .unique-icon-box {
+  background: var(--primary-red);
+  transform: rotateY(180deg);
+}
+
+.unique-icon-box i {
+  font-size: 2rem;
+  color: var(--primary-red);
+}
+
+.unique-item:hover .unique-icon-box i {
+  color: white;
+}
+
+.unique-item h3 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.2rem;
+  color: var(--white);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  line-height: 1.4;
+}
+
+/* RESPONSIVE UNIQUE SECTION */
+@media (max-width: 1200px) {
+  .unique-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+  }
+}
+
+@media (max-width: 600px) {
+  .unique-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .unique-section {
+    padding: 60px 5%;
+  }
+
+  .unique-item {
+    padding: 40px 20px;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════
        PORTFOLIO SECTION - RESPONSIVE
     ══════════════════════════════════════════════════════════════════ */
 
@@ -2076,7 +2193,12 @@ body {
   overflow: hidden;
   position: relative;
 }
-
+.usp{
+  font-family: 'Oswald', sans-serif;
+  color: #ffffff;
+  margin-bottom: 10px;
+  font-size: clamp(1.1rem, 2vw, 1.3rem);
+}
 .placed-students-header {
   display: flex;
   justify-content: space-between;
@@ -2186,14 +2308,14 @@ body {
 
 .placement-text {
   color: #ffffff;
-  font-size: clamp(0.75rem, 1.5vw, 0.85rem);
+  font-size: clamp(0.75rem, 1.5vw, 0.75rem);
   margin-bottom: 20px;
   line-height: 1.4;
 }
 
 .placement-text strong {
   display: block;
-  font-size: clamp(0.85rem, 1.8vw, 1rem);
+  font-size: clamp(0.85rem, 1.8vw, 0.8rem);
   font-weight: 800;
   margin-top: 5px;
 }
