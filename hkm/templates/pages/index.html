@@ -65,8 +65,8 @@
                             style="--i:28">T</span><span class="gaming-char" style="--i:29">E</span>
                     </span>
                 </h1>
-                <p class="hero-description">Harikrushna Multimedia Institute offers a wide range of industry-relevant,
-                    skill-oriented programs that equip <br> students with the knowledge and hands-on experience
+                <p class="hero-desc-card">Harikrushna Multimedia Institute offers a wide range of industry-relevant,
+                    skill-oriented programs that equip students with the knowledge and hands-on experience
                     needed to build a successful and rewarding career.</p>
             </div>
 
@@ -337,6 +337,40 @@
             </div>
         </div>
     </section>
+
+    <!-- ══════════════════════════════════════════════════════════════════
+         INSTITUTE GALLERY SECTION
+    ══════════════════════════════════════════════════════════════════ -->
+    {% if gallery_images %}
+    <section class="gallery-section" id="gallery">
+        <div class="gallery-header">
+            <span class="tag-line">OUR CAMPUS</span>
+            <h2 class="section-title">INSTITUTE <span>GALLERY</span></h2>
+            <p class="section-tagline">Career + Skill + Technology</p>
+        </div>
+
+        <div class="gallery-grid">
+            {% for img in gallery_images %}
+            <div class="gallery-item" onclick="openGalleryLightbox('{{ img.image.url }}', '{{ img.title }}')">
+                <img src="{{ img.image.url }}" alt="{{ img.title }}" loading="lazy">
+                <div class="gallery-overlay">
+                    <span class="gallery-caption">{{ img.title }}</span>
+                    <span class="gallery-zoom-icon"><i class="fas fa-expand-alt"></i></span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Gallery Lightbox -->
+    <div class="gallery-lightbox" id="galleryLightbox" onclick="closeGalleryLightbox()">
+        <div class="gallery-lb-content" onclick="event.stopPropagation()">
+            <button class="gallery-lb-close" onclick="closeGalleryLightbox()"><i class="fas fa-times"></i></button>
+            <img src="" alt="" id="galleryLbImg">
+            <p class="gallery-lb-caption" id="galleryLbCaption"></p>
+        </div>
+    </div>
+    {% endif %}
 
     <section class="portfolio-section" id="portfolios">
         <div class="portfolio-wrapper">
@@ -628,7 +662,7 @@
     {% include 'base/footer.html' %}
 
     <style>
-        /* ---- Enroll Now Button on Course Cards ---- */
+        /*--- Enroll Now Button on Course Cards ---- */
         .enroll-now-btn {
             display: inline-block;
             margin-top: 12px;
@@ -653,7 +687,25 @@
         }
     </style>
 
-    <script src="{% static 'js/script.js' %}?v=20260222"></script>
+    <script src="{% static 'js/script.js' %}?v=20260312"></script>
+
+    <script>
+        /* Gallery Lightbox */
+        function openGalleryLightbox(src, caption) {
+            document.getElementById('galleryLbImg').src = src;
+            document.getElementById('galleryLbCaption').textContent = caption;
+            document.getElementById('galleryLightbox').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeGalleryLightbox() {
+            document.getElementById('galleryLightbox').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') closeGalleryLightbox();
+        });
+    </script>
 </body>
 
 </html>

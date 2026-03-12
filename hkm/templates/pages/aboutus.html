@@ -183,26 +183,34 @@
 
     .stat-row {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-start;
       align-items: center;
+      gap: 1.25rem;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       padding-bottom: 1rem;
+      transition: transform 0.3s ease;
+    }
+
+    .stat-row:hover {
+      transform: translateX(8px);
     }
 
     .stat-row:last-child {
       border-bottom: none;
     }
 
-    .stat-label {
-      color: #d1d5db;
-      font-size: 0.95rem;
+    .stat-icon {
+      font-size: 1.25rem;
+      color: #818cf8;
+      width: 24px;
+      text-align: center;
+      filter: drop-shadow(0 0 5px rgba(129, 140, 248, 0.5));
     }
 
-    .stat-value {
-      font-size: 1.875rem;
-      font-weight: 900;
-      color: #818cf8;
-      font-family: 'Oswald', sans-serif;
+    .stat-label {
+      color: #e5e7eb;
+      font-size: 1rem;
+      font-weight: 500;
     }
 
     .cta-button {
@@ -578,16 +586,24 @@
           <h3 class="hero-card-title">Why HKMI?</h3>
           <div class="stats-container">
             <div class="stat-row">
-              <span class="stat-label">Students Trained</span>
-              <span class="stat-value counter" data-target="2500">0</span>
+              <i class="fas fa-laptop-code stat-icon"></i>
+              <span class="stat-label">Studio internship</span>
             </div>
             <div class="stat-row">
-              <span class="stat-label">Expert Mentors</span>
-              <span class="stat-value counter" data-target="35">0</span>
+              <i class="fas fa-briefcase stat-icon"></i>
+              <span class="stat-label">100% placement assistance</span>
             </div>
             <div class="stat-row">
-              <span class="stat-label">Placement Support</span>
-              <span class="stat-value">100%</span>
+              <i class="fas fa-industry stat-icon"></i>
+              <span class="stat-label">Regular industry visits</span>
+            </div>
+            <div class="stat-row">
+              <i class="fas fa-trophy stat-icon"></i>
+              <span class="stat-label">Internal competition</span>
+            </div>
+            <div class="stat-row">
+              <i class="fas fa-tools stat-icon"></i>
+              <span class="stat-label">Creative and technical skills</span>
             </div>
           </div>
           <a href="{% url 'courses' %}" class="cta-button">Explore Courses</a>
@@ -755,36 +771,35 @@
       y: -12, duration: 3, repeat: -1, yoyo: true, ease: "sine.inOut"
     });
 
-    // Counter animation
-    document.querySelectorAll('.counter').forEach(counter => {
-      const target = +counter.dataset.target;
-      gsap.fromTo(counter, { innerText: 0 }, {
-        innerText: target, duration: 2,
-        snap: { innerText: 1 }, ease: "power2.out",
-        scrollTrigger: { trigger: counter, start: "top 85%" }
-      });
-    });
 
-    // Blurry char-reveal for hero subtitle (same animation as headings)
+    // Blurry char-reveal for hero subtitle — with word-wrap
     document.addEventListener('DOMContentLoaded', () => {
       const p = document.getElementById('hero-subtitle');
       if (!p) return;
 
-      // Wrap every character in a gaming-char span
       const text = p.textContent;
       p.innerHTML = '';
+
+      // Split into words and spaces, wrap each word in <w-wrap>
+      const tokens = text.split(/( +)/);
       let charIndex = 0;
-      [...text].forEach(char => {
-        if (char === ' ') {
-          p.appendChild(document.createTextNode(' '));
-          charIndex++;
+
+      tokens.forEach(token => {
+        if (!token) return;
+        if (/^ +$/.test(token)) {
+          p.appendChild(document.createTextNode(token));
         } else {
-          const span = document.createElement('span');
-          span.className = 'gaming-char';
-          span.textContent = char;
-          span.style.setProperty('--i', charIndex);
-          p.appendChild(span);
-          charIndex++;
+          const wrap = document.createElement('w-wrap');
+          wrap.style.cssText = 'display:inline; white-space:nowrap; color:inherit';
+          [...token].forEach(char => {
+            const span = document.createElement('span');
+            span.className = 'gaming-char';
+            span.textContent = char;
+            span.style.cssText = 'color: inherit !important';
+            span.style.setProperty('--i', charIndex++);
+            wrap.appendChild(span);
+          });
+          p.appendChild(wrap);
         }
       });
 

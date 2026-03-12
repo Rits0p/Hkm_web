@@ -514,12 +514,25 @@
             animation-delay: calc(var(--i) * 0.03s);
         }
 
+        /* Word-wrap element reset */
+        w-wrap,
+        v-word {
+            display: inline;
+            white-space: nowrap;
+            color: inherit;
+        }
+
         /* FIX: Force direct child animation characters to inherit parent color */
         h1>.gaming-char,
+        h1>w-wrap>.gaming-char,
         h2>.gaming-char,
+        h2>w-wrap>.gaming-char,
         h3>.gaming-char,
+        h3>w-wrap>.gaming-char,
         .course-main-title>.gaming-char,
-        .studio-label>.gaming-char {
+        .course-main-title>w-wrap>.gaming-char,
+        .studio-label>.gaming-char,
+        .studio-label>w-wrap>.gaming-char {
             color: inherit !important;
             text-shadow: inherit;
         }
@@ -602,95 +615,7 @@
         </aside>
     </main>
 
-    <script>
-        // Gaming Text Animation System
-        function setupGamingTextAnimation() {
-            const targets = document.querySelectorAll(`
-        h1:not(.processed),
-        h2:not(.processed),
-        h3:not(.processed),
-        .studio-label:not(.processed),
-        .course-main-title:not(.processed)
-      `);
-
-            targets.forEach(el => {
-                el.classList.add('processed');
-                const hasManualSpans = el.querySelector('.gaming-char');
-
-                if (!hasManualSpans) {
-                    const originalHTML = el.innerHTML;
-                    const hasNestedSpan = el.querySelector('span');
-
-                    if (hasNestedSpan) {
-                        const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
-                        const textNodes = [];
-                        let node;
-                        while (node = walker.nextNode()) {
-                            if (node.textContent.length > 0 && !/^\s*[\r\n]+\s*$/.test(node.textContent)) {
-                                textNodes.push(node);
-                            }
-                        }
-
-                        let charIndex = 0;
-                        textNodes.forEach(textNode => {
-                            const text = textNode.textContent;
-                            const fragment = document.createDocumentFragment();
-
-                            [...text].forEach((char) => {
-                                if (/[\r\n\t]/.test(char)) {
-                                    fragment.appendChild(document.createTextNode(char));
-                                    return;
-                                }
-                                if (char === ' ') {
-                                    fragment.appendChild(document.createTextNode(' '));
-                                    charIndex++;
-                                } else {
-                                    const span = document.createElement('span');
-                                    span.textContent = char;
-                                    span.className = 'gaming-char';
-                                    span.style.setProperty('--i', charIndex);
-                                    fragment.appendChild(span);
-                                    charIndex++;
-                                }
-                            });
-                            textNode.parentNode.replaceChild(fragment, textNode);
-                        });
-                    } else {
-                        const text = el.textContent.trim();
-                        el.innerHTML = '';
-                        [...text].forEach((char, index) => {
-                            if (char === ' ') {
-                                el.appendChild(document.createTextNode(' '));
-                            } else {
-                                const span = document.createElement('span');
-                                span.textContent = char;
-                                span.className = 'gaming-char';
-                                span.style.setProperty('--i', index);
-                                el.appendChild(span);
-                            }
-                        });
-                    }
-                }
-            });
-
-            // Internal Observer for Replay
-            const animObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('reveal-active');
-                    } else {
-                        entry.target.classList.remove('reveal-active'); // Replay logic
-                    }
-                });
-            }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
-
-            document.querySelectorAll('.processed').forEach(el => animObserver.observe(el));
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            setupGamingTextAnimation();
-        });
-    </script>
+    <script src="{% static 'js/gaming-text-anim.js' %}"></script>
 </body>
 
 </html>

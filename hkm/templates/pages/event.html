@@ -14,16 +14,12 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}?v=20260305">
 
     <style>
-        /* Event Page: Make navbar visible immediately */
+        /* Event Page Styles - REVERTED TO ORIGINAL */
         .navbar {
             opacity: 1 !important;
             visibility: visible !important;
             transform: translateY(0) !important;
             background: rgba(29, 53, 87, 0.8) !important;
-        }
-
-        .nav-links a {
-            font-family: 'Inter', sans-serif !important;
         }
 
         :root {
@@ -32,6 +28,8 @@
             --panel-bg: rgba(255, 255, 255, 0.03);
             --heading-font: 'Oswald', sans-serif;
             --body-font: 'Segoe UI', sans-serif;
+            --neon-blue: #00f3ff;
+            --neon-purple: #9d00ff;
         }
 
         body {
@@ -65,23 +63,10 @@
             width: 100%;
         }
 
-        .hero-visual {
-            height: 100%;
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-        }
-
         .hero-visual img {
             max-height: 80vh;
             width: auto;
-            max-width: 100%;
             filter: drop-shadow(0 0 30px rgba(0, 0, 0, 0.9));
-            margin-bottom: -5px;
-        }
-
-        .hero-content {
-            padding-bottom: 0;
         }
 
         .hero-tag {
@@ -124,23 +109,6 @@
             border-left: 3px solid var(--primary-red);
             padding: 15px 20px;
             flex: 1;
-            max-width: 250px;
-        }
-
-        .highlight-box h4 {
-            font-family: var(--heading-font);
-            color: #fff;
-            margin: 0 0 5px 0;
-            font-size: 1.2rem;
-            text-transform: uppercase;
-        }
-
-        .highlight-box p {
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.5);
-            margin: 0;
-            text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
         .chronicles-section {
@@ -157,347 +125,297 @@
             font-family: var(--heading-font);
             color: var(--primary-red);
             letter-spacing: 4px;
-            font-size: 0.9rem;
         }
 
         .section-title {
             font-family: var(--heading-font);
             font-size: 3.2rem;
             text-transform: uppercase;
-            margin: 5px 0;
         }
 
-        .featured-update-card {
-            background: #0f1012;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            position: relative;
-            overflow: hidden;
-            transition: border-color 0.3s ease;
-        }
-
-        .featured-update-card:hover {
-            border-color: var(--primary-red);
-        }
-
-        .update-main-content {
-            position: relative;
-            height: 520px;
-            overflow: hidden;
-        }
-
-        .update-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(40%) contrast(1.1);
-            transition: transform 0.8s cubic-bezier(0.2, 1, 0.3, 1);
-        }
-
-        .featured-update-card:hover .update-img {
-            transform: scale(1.05);
-            filter: grayscale(0%);
-        }
-
-        .update-overlay {
-            position: absolute;
-            inset: auto 0 0 0;
-            padding: 50px;
-            background: linear-gradient(to top, rgba(8, 9, 11, 1) 15%, transparent 100%);
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-        }
-
-        .update-name {
-            font-family: var(--heading-font);
-            font-size: 2.5rem;
-            margin: 8px 0 0;
-            text-transform: uppercase;
-        }
-
-        .update-date {
-            color: var(--primary-red);
-            font-family: var(--heading-font);
-            font-size: 1rem;
-            letter-spacing: 2px;
-            font-weight: bold;
-        }
-
-        .expand-btn {
-            background: var(--primary-red);
-            color: #fff;
-            border: none;
-            padding: 15px 35px;
-            font-family: var(--heading-font);
-            font-size: 1rem;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .expand-btn:hover {
-            background: #fff;
-            color: var(--primary-red);
-        }
-
-        .update-details-panel {
-            max-height: 0;
-            overflow: hidden;
-            background: #0d0f12;
-            transition: max-height 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .update-details-panel.open {
-            max-height: 1200px;
-            border-top: 2px solid var(--primary-red);
-        }
-
-        .details-inner {
-            padding: 50px;
-        }
-
-        .details-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-        }
-
-        .details-info h4 {
-            font-family: var(--heading-font);
-            color: var(--primary-red);
-            font-size: 1.8rem;
-            margin: 0 0 15px;
-            text-transform: uppercase;
-        }
-
-        .details-info p {
-            line-height: 1.8;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 1.05rem;
-        }
-
-        .details-list {
-            margin-top: 20px;
-            padding-left: 20px;
-            color: var(--primary-red);
-        }
-
-        .details-list li {
-            margin-bottom: 10px;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .details-visuals {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .details-visuals img {
-            width: 100%;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
+        /* Grid & Cards */
         .chronicles-grid {
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
             gap: 40px;
-            margin-top: 40px;
-        }
-
-        .video-card {
-            height: 560px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .image-cards-row {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 30px;
         }
 
         .image-card {
-            height: 380px;
+            position: relative;
             display: flex;
             flex-direction: column;
+            height: 500px;
         }
 
         .media-visual-area {
             position: relative;
             flex: 1;
             background: #0f1012;
-            border: 1px solid rgba(255, 255, 255, 0.05);
             overflow: hidden;
-            transition: border-color 0.3s ease;
+            clip-path: polygon(20px 0%,
+                    100% 0%,
+                    100% calc(100% - 20px),
+                    calc(100% - 20px) 100%,
+                    0% 100%,
+                    0% 20px);
         }
 
-        .media-card:hover .media-visual-area {
-            border-color: var(--primary-red);
-        }
-
-        .media-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.7;
-            transition: opacity 0.5s ease, transform 0.8s cubic-bezier(0.2, 1, 0.3, 1);
-        }
-
-        .media-card:hover .media-img {
-            opacity: 0.9;
-            transform: scale(1.05);
-        }
-
-        .video-container {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #000;
-        }
-
-        .play-button {
+        .card-border {
             position: absolute;
-            width: 80px;
-            height: 80px;
-            background: var(--primary-red);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 3;
-            cursor: pointer;
-            box-shadow: 0 0 30px rgba(230, 57, 70, 0.5);
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            inset: 0;
+            background: linear-gradient(135deg, var(--primary-red), #ff4d5a);
+            padding: 2px;
+            clip-path: inherit;
+            z-index: 8;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            -webkit-mask-composite: xor;
+            pointer-events: none;
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
         }
 
-        .media-card:hover .play-button {
-            transform: scale(1.12);
+        .image-card:hover .card-border {
+            opacity: 1;
+            box-shadow: 0 0 15px rgba(230, 57, 70, 0.3);
         }
 
         .media-label {
             position: absolute;
             inset: auto 0 0 0;
-            padding: 35px 30px;
-            background: linear-gradient(transparent, rgba(8, 9, 11, 0.96));
-            z-index: 2;
-            pointer-events: none;
+            padding: 30px;
+            background: linear-gradient(transparent, rgba(8, 9, 11, 0.95));
+            z-index: 5;
         }
 
         .media-label span {
             color: var(--primary-red);
             font-family: var(--heading-font);
-            font-size: 0.85rem;
-            letter-spacing: 2.5px;
-            text-transform: uppercase;
-            display: block;
-            margin-bottom: 8px;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
         }
 
         .media-label h3 {
-            margin: 0;
             font-family: var(--heading-font);
-            font-size: 1.7rem;
-            text-transform: uppercase;
-            color: #fff;
-            letter-spacing: 1px;
+            font-size: 1.8rem;
+            margin-top: 5px;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
         }
 
         .view-detail-btn {
-            width: 100%;
             background: #15171a;
             border: 1px solid rgba(255, 255, 255, 0.1);
             color: #fff;
+            padding: 16px 10px;
+            text-align: center;
+            text-decoration: none;
             font-family: var(--heading-font);
             text-transform: uppercase;
-            padding: 16px;
-            margin-top: 12px;
-            cursor: pointer;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
+            flex: 1;
+            font-size: 0.85rem;
             transition: 0.3s;
+        }
+
+        .view-detail-btn.secondary {
+            background: rgba(255, 255, 255, 0.05);
+            cursor: pointer;
         }
 
         .view-detail-btn:hover {
             background: var(--primary-red);
+            color: #fff;
             border-color: var(--primary-red);
         }
 
-        .details-drawer {
+        /* Details Overlay */
+        .card-details-overlay {
             position: absolute;
             inset: 0;
-            background: rgba(8, 9, 11, 0.97);
+            background: rgba(8, 9, 11, 0.96);
+            backdrop-filter: blur(5px);
+            z-index: 25;
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(1.05);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            pointer-events: none;
+        }
+
+        .image-card.show-details .card-details-overlay {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+
+        .details-header {
+            border-bottom: 2px solid var(--primary-red);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .details-header h4 {
+            font-family: var(--heading-font);
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            margin: 0;
+            color: var(--primary-red);
+        }
+
+        .details-content {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 25px;
+            overflow-y: auto;
+            max-height: 200px;
+        }
+
+        .close-details-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 8px 15px;
+            font-family: var(--heading-font);
+            cursor: pointer;
+            width: fit-content;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+
+        .close-details-btn:hover {
+            border-color: var(--primary-red);
+            color: var(--primary-red);
+        }
+
+        /* Slider Integration */
+        .card-slider-container {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .card-slider-inner {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .slide-item {
+            flex: 0 0 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .slide-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.7);
+        }
+
+        /* Hexagon Slide Mod */
+        .hex-slide-mod {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 80%;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            border: 2px solid var(--neon-blue);
+            overflow: hidden;
+        }
+
+        /* Slider Nav */
+        .card-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 15px;
+            z-index: 10;
+            pointer-events: none;
+            transform: translateY(-50%);
+        }
+
+        .c-nav-btn {
+            width: 40px;
+            height: 40px;
+            background: rgba(230, 57, 70, 0.8);
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            pointer-events: auto;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 25px;
-            text-align: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.4s ease, visibility 0.4s ease;
-            z-index: 5;
+            border-radius: 4px;
         }
 
-        .media-card.show-details .details-drawer {
-            opacity: 1;
-            visibility: visible;
-        }
+        @media (max-width: 768px) {
+            .chronicles-grid {
+                grid-template-columns: 1fr;
+            }
 
-        .media-card.show-details .media-label {
-            opacity: 0;
-        }
-
-        .details-drawer p {
-            font-size: 1.05rem;
-            line-height: 1.7;
-            color: rgba(255, 255, 255, 0.85);
-        }
-
-        .animate-text-flow>* {
-            opacity: 0;
-            transform: translateY(30px);
-            animation: revealUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-        }
-
-        .animate-image-slide {
-            opacity: 0;
-            transform: translateX(60px);
-            animation: revealLeft 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-            animation-delay: 0.4s;
-        }
-
-        .anim-1 {
-            animation-delay: 0.2s;
-        }
-
-        .anim-2 {
-            animation-delay: 0.4s;
-        }
-
-        .anim-3 {
-            animation-delay: 0.6s;
-        }
-
-        .anim-4 {
-            animation-delay: 0.8s;
-        }
-
-        @keyframes revealUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
+            .image-card {
+                height: 400px;
             }
         }
 
-        @keyframes revealLeft {
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+        /* Lightbox */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
         }
 
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 80vh;
+            position: relative;
+            border: 2px solid var(--primary-red);
+        }
+
+        .lightbox-img {
+            max-width: 100%;
+            max-height: 80vh;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: #fff;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        /* Entrance Animations */
         .hero-content {
             opacity: 0;
             transform: translateX(-100px);
@@ -510,8 +428,7 @@
             transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        .image-card,
-        .reveal {
+        .image-card {
             opacity: 0;
             transform: translateY(100px);
             transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
@@ -519,8 +436,7 @@
 
         .hero-content.active,
         .hero-visual.active,
-        .image-card.active,
-        .reveal.active {
+        .image-card.active {
             opacity: 1;
             transform: translate(0, 0);
         }
@@ -537,418 +453,42 @@
 
             0%,
             100% {
-                margin-top: 0;
+                transform: translateY(0);
             }
 
             50% {
-                margin-top: -15px;
+                transform: translateY(-15px);
             }
         }
 
-        .container {
-            width: 100%;
+        /* Character Animations */
+        .gaming-char {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(100%) rotateX(-90deg);
+            transform-origin: bottom;
+            transition: none;
+            color: inherit;
         }
 
-        @media (min-width: 768px) {
-            .container {
-                width: 80%;
-            }
+        .reveal-active .gaming-char {
+            animation: charReveal 0.6s cubic-bezier(0.2, 1, 0.3, 1) forwards;
+            animation-delay: calc(var(--i) * 0.03s);
         }
 
-        @media (min-width: 1024px) {
-            .container {
-                width: 60%;
-            }
-        }
-
-        @media (max-width: 992px) {
-            .event-hero {
-                height: auto;
-                min-height: calc(100vh - 70px);
-                padding: 40px 5% 60px;
-            }
-
-            .event-container {
-                grid-template-columns: 1fr;
-                gap: 50px;
-            }
-
-            .hero-visual {
-                order: -1;
-                height: auto;
-                align-items: center;
-            }
-
-            .hero-visual img {
-                max-height: 60vh;
-            }
-
-            .hero-description {
-                font-size: 1rem;
-            }
-
-            .event-highlights {
-                flex-wrap: wrap;
-            }
-
-            .highlight-box {
-                max-width: 100%;
-                min-width: 200px;
-            }
-
-            .chronicles-section {
-                padding: 60px 5%;
-            }
-
-            .section-title {
-                font-size: 2.5rem;
-            }
-
-            .chronicles-grid {
-                gap: 30px;
-            }
-
-            .video-card {
-                height: 420px;
-            }
-
-            .image-cards-row {
-                grid-template-columns: 1fr;
-            }
-
-            .image-card {
-                height: 360px;
-            }
-
-            .update-main-content {
-                height: 420px;
-            }
-
-            .update-overlay {
-                padding: 30px;
-            }
-
-            .update-name {
-                font-size: 2rem;
-            }
-
-            .details-grid {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-
-            .details-visuals {
-                grid-template-columns: 1fr;
-            }
-
-            .media-label {
-                padding: 25px 20px;
-            }
-
-            .media-label h3 {
-                font-size: 1.4rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .event-hero {
-                margin-top: 60px;
-                padding: 30px 5% 50px;
-            }
-
-            .hero-tag {
-                font-size: 0.75rem;
-                letter-spacing: 2px;
-            }
-
-            .hero-title {
-                font-size: clamp(2rem, 8vw, 2.8rem);
-                margin-bottom: 15px;
-            }
-
-            .hero-description {
-                font-size: 0.95rem;
-                margin-bottom: 25px;
-            }
-
-            .event-highlights {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .highlight-box {
-                padding: 12px 15px;
-            }
-
-            .highlight-box h4 {
-                font-size: 1rem;
-            }
-
-            .highlight-box p {
-                font-size: 0.75rem;
-            }
-
-            .chronicles-section {
-                padding: 50px 5%;
-            }
-
-            .section-tag {
-                font-size: 0.75rem;
-                letter-spacing: 3px;
-            }
-
-            .section-title {
-                font-size: 2rem;
-            }
-
-            .details-inner {
-                padding: 30px 20px;
-            }
-
-            .details-info h4 {
-                font-size: 1.4rem;
-            }
-
-            .details-info p {
-                font-size: 0.95rem;
-            }
-
-            .expand-btn {
-                padding: 12px 25px;
-                font-size: 0.9rem;
-            }
-
-            .view-detail-btn {
-                padding: 14px;
-                font-size: 0.9rem;
-            }
-
-            .play-button {
-                width: 60px;
-                height: 60px;
-            }
-
-            .media-label span {
-                font-size: 0.75rem;
-                letter-spacing: 2px;
-            }
-
-            .media-label h3 {
-                font-size: 1.2rem;
-            }
-
-            .details-drawer p {
-                font-size: 0.95rem;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .event-hero {
-                padding: 20px 5% 40px;
-            }
-
-            .hero-visual img {
-                max-height: 50vh;
-            }
-
-            .video-card {
-                height: 360px;
-            }
-
-            .image-card {
-                height: 320px;
-            }
-
-            .update-main-content {
-                height: 350px;
-            }
-
-            .update-overlay {
-                padding: 20px;
-            }
-
-            .update-name {
-                font-size: 1.5rem;
-            }
-
-            .update-date {
-                font-size: 0.85rem;
-            }
-
-            .media-label {
-                padding: 20px 15px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .event-hero {
-                margin-top: 60px;
-                padding: 20px 4% 30px;
-            }
-
-            .hero-tag {
-                font-size: 0.7rem;
-                letter-spacing: 1.5px;
-            }
-
-            .hero-title {
-                font-size: clamp(1.75rem, 10vw, 2rem);
-                margin-bottom: 12px;
-            }
-
-            .hero-description {
-                font-size: 0.9rem;
-                line-height: 1.5;
-                margin-bottom: 20px;
-            }
-
-            .highlight-box {
-                padding: 10px 12px;
-            }
-
-            .highlight-box h4 {
-                font-size: 0.95rem;
-            }
-
-            .highlight-box p {
-                font-size: 0.7rem;
-            }
-
-            .chronicles-section {
-                padding: 40px 4%;
-            }
-
-            .section-tag {
-                font-size: 0.7rem;
-            }
-
-            .section-title {
-                font-size: 1.75rem;
-            }
-
-            .video-card {
-                height: 300px;
-            }
-
-            .image-card {
-                height: 280px;
-            }
-
-            .update-main-content {
-                height: 300px;
-            }
-
-            .play-button {
-                width: 50px;
-                height: 50px;
-            }
-
-            .media-label {
-                padding: 15px 12px;
-            }
-
-            .media-label span {
-                font-size: 0.7rem;
-                letter-spacing: 1.5px;
-                margin-bottom: 6px;
-            }
-
-            .media-label h3 {
-                font-size: 1rem;
-            }
-
-            .view-detail-btn {
-                padding: 12px;
-                font-size: 0.85rem;
-                letter-spacing: 1.5px;
-            }
-
-            .details-drawer {
-                padding: 20px 15px;
-            }
-
-            .details-drawer p {
-                font-size: 0.9rem;
-                line-height: 1.6;
-            }
-
-            .details-inner {
-                padding: 25px 15px;
-            }
-
-            .details-info h4 {
-                font-size: 1.2rem;
-            }
-
-            .details-info p {
-                font-size: 0.9rem;
-            }
-        }
-
-        @media (max-width: 360px) {
-            .hero-title {
-                font-size: 1.6rem;
-            }
-
-            .hero-description {
-                font-size: 0.85rem;
-            }
-
-            .section-title {
-                font-size: 1.5rem;
-            }
-
-            .video-card {
-                height: 260px;
-            }
-
-            .image-card {
-                height: 240px;
-            }
-
-            .media-label h3 {
-                font-size: 0.9rem;
-            }
-        }
-
-        /* Gaming Animation Styles */
-        @keyframes text-reveal-anim {
-            0% {
-                opacity: 0;
-                filter: blur(20px);
-                transform: translateY(100%) rotateX(-90deg);
-            }
-
-            100% {
+        @keyframes charReveal {
+            to {
                 opacity: 1;
-                filter: blur(0);
                 transform: translateY(0) rotateX(0deg);
             }
         }
 
-        .gaming-char {
-            display: inline-block !important;
-            /* FIX: Override conflicting block display */
-            opacity: 0;
-            transform: translateY(100%) rotateX(-90deg);
-            transform-origin: bottom center;
-            will-change: transform, opacity, filter;
+        .hero-title span {
+            color: var(--primary-red);
+        }
+
+        .hero-title .gaming-char {
             color: inherit;
-            text-shadow: inherit;
-        }
-
-        .reveal-active .gaming-char {
-            animation: text-reveal-anim 0.8s cubic-bezier(0.2, 1, 0.3, 1) forwards;
-            animation-delay: calc(var(--i) * 0.03s);
-        }
-
-        /* FIX: Force direct child animation characters to inherit parent color */
-        h1>.gaming-char,
-        h2>.gaming-char,
-        .hero-title>.gaming-char,
-        .section-title>.gaming-char {
-            color: inherit !important;
-            text-shadow: inherit;
         }
     </style>
 </head>
@@ -979,9 +519,11 @@
                 </div>
             </div>
             <div class="hero-visual">
-                <img src="{% static 'images/hero-01_edrsqv.webp' %}" alt="Warrior Character" id="warrior-hero">
+                <img src="{% static 'images/hero-01_edrsqv.webp' %}" alt="Warrior" id="warrior-hero">
             </div>
+        </div>
     </section>
+
     <section class="chronicles-section">
         <div class="section-header">
             <span class="section-tag">Multimedia Feed</span>
@@ -989,177 +531,193 @@
         </div>
 
         <div class="chronicles-grid">
+            {% for event in events %}
+            <div class="image-card">
+                <div class="media-visual-area">
+                    <div class="card-border"></div>
 
-
-            <!-- 2. Image cards – grouped in 2-column layout below the video -->
-            <div class="image-cards-row">
-                {% for event in events %}
-                <div class="media-card image-card">
-                    <div class="media-visual-area">
-                        <img src="{{ event.image.url }}" alt="{{ event.title }}" class="media-img">
-                        <div class="media-label">
-                            <span>Event</span>
-                            <h3>{{ event.title }}</h3>
+                    <!-- Details Overlay -->
+                    <div class="card-details-overlay" id="overlay-{{ event.id }}">
+                        <div class="details-header">
+                            <h4>MISSION LOGS</h4>
                         </div>
-                        <div class="details-drawer">
-                            <p>{{ event.description }}</p>
+                        <div class="details-content">
+                            {{ event.description|linebreaksbr|default:"No additional transmission data available." }}
+                        </div>
+                        <button class="close-details-btn" onclick="toggleCardDetails(event, '{{ event.id }}')">
+                            MINIMIZE LOGS
+                        </button>
+                    </div>
+
+                    <div class="card-slider-container">
+                        <div class="card-slider-inner" id="slider-{{ event.id }}">
+                            <!-- Main Thumbnail -->
+                            <div class="slide-item">
+                                {% if event.thumbnail %}
+                                <img src="{{ event.thumbnail.url }}" alt="{{ event.title }}">
+                                {% else %}
+                                <div style="width: 100%; height: 100%; background: #111;"></div>
+                                {% endif %}
+                            </div>
+                            <!-- Gallery Images -->
+                            {% for img in event.images.all %}
+                            <div class="slide-item">
+                                <img src="{{ img.image.url }}" alt="{{ img.alt_text }}">
+                            </div>
+                            {% endfor %}
                         </div>
                     </div>
-                    <button class="view-detail-btn" onclick="toggleDetails(this.closest('.media-card'))">
-                        View Details
+
+                    {% if event.images.all.count > 0 %}
+                    <div class="card-nav">
+                        <button class="c-nav-btn prev" onclick="moveSlider('slider-{{ event.id }}', -1)"><i
+                                class="fas fa-chevron-left"></i></button>
+                        <button class="c-nav-btn next" onclick="moveSlider('slider-{{ event.id }}', 1)"><i
+                                class="fas fa-chevron-right"></i></button>
+                    </div>
+                    {% endif %}
+
+                    <div class="media-label">
+                        <span>EVENT ARCHIVE</span>
+                        <h3>{{ event.title }}</h3>
+                    </div>
+                </div>
+                <div class="card-actions">
+                    <a href="{% url 'event_detail' slug=event.slug %}" class="view-detail-btn">
+                        ACCESS TRANSMISSION
+                    </a>
+                    <button type="button" class="view-detail-btn secondary"
+                        onclick="toggleCardDetails(event, '{{ event.id }}')">
+                        VIEW DETAILS
                     </button>
                 </div>
-                {% endfor %}
-
-                <!-- You can easily add more image cards here -->
-                <!--
-            <div class="media-card image-card" id="card-img-3">...</div>
-            <div class="media-card image-card" id="card-img-4">...</div>
-            -->
-
             </div>
-
+            {% endfor %}
         </div>
     </section>
 
+    <div class="lightbox" id="mainLightbox">
+        <div class="lightbox-content">
+            <span class="lightbox-close" id="closeLightbox">&times;</span>
+            <img src="" alt="" class="lightbox-img" id="lightboxImg">
+        </div>
     </div>
-    </section>
+
+    {% include 'base/footer.html' %}
+
     <script>
-        // Toggle Function for the Detail Panel
-        function toggleDetails(card) {
-            if (card) {
-                card.classList.toggle('show-details');
-            }
+        const sliderStates = {};
+
+        function moveSlider(id, dir) {
+            if (!sliderStates[id]) sliderStates[id] = 0;
+            const slider = document.getElementById(id);
+            const count = slider.children.length;
+
+            sliderStates[id] = (sliderStates[id] + dir + count) % count;
+            slider.style.transform = `translateX(-${sliderStates[id] * 100}%)`;
         }
 
-        // Gaming Text Animation System
-        function setupGamingTextAnimation() {
-            console.log('Initializing Gaming Text Animation...');
-
-            const targets = document.querySelectorAll(`
-        h1:not(.processed),
-        h2:not(.processed),
-        .hero-tag:not(.processed),
-        .section-tag:not(.processed),
-        .hero-description:not(.processed)
-      `);
-
-            targets.forEach(el => {
-                el.classList.add('processed');
-                const hasManualSpans = el.querySelector('.gaming-char');
-
-                if (!hasManualSpans) {
-                    const originalHTML = el.innerHTML;
-                    const hasNestedSpan = el.querySelector('span');
-
-                    if (hasNestedSpan) {
-                        const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
-                        const textNodes = [];
-                        let node;
-                        while (node = walker.nextNode()) {
-                            if (node.textContent.length > 0 && !/^\s*[\r\n]+\s*$/.test(node.textContent)) {
-                                textNodes.push(node);
-                            }
-                        }
-
-                        let charIndex = 0;
-                        textNodes.forEach(textNode => {
-                            const text = textNode.textContent;
-                            const fragment = document.createDocumentFragment();
-
-                            [...text].forEach((char) => {
-                                if (/[\r\n\t]/.test(char)) {
-                                    fragment.appendChild(document.createTextNode(char));
-                                    return;
-                                }
-                                if (char === ' ') {
-                                    fragment.appendChild(document.createTextNode(' '));
-                                    charIndex++;
-                                } else {
-                                    const span = document.createElement('span');
-                                    span.textContent = char;
-                                    span.className = 'gaming-char';
-                                    span.style.setProperty('--i', charIndex);
-                                    fragment.appendChild(span);
-                                    charIndex++;
-                                }
-                            });
-                            textNode.parentNode.replaceChild(fragment, textNode);
-                        });
-                    } else {
-                        const text = el.textContent.trim();
-                        el.innerHTML = '';
-                        [...text].forEach((char, index) => {
-                            if (char === ' ') {
-                                el.appendChild(document.createTextNode(' '));
-                            } else {
-                                const span = document.createElement('span');
-                                span.textContent = char;
-                                span.className = 'gaming-char';
-                                span.style.setProperty('--i', index);
-                                el.appendChild(span);
-                            }
-                        });
-                    }
+        function toggleCardDetails(e, eventId) {
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            const cards = document.querySelectorAll('.image-card');
+            cards.forEach(card => {
+                if (card.querySelector(`#overlay-${eventId}`)) {
+                    card.classList.toggle('show-details');
+                } else {
+                    card.classList.remove('show-details');
                 }
             });
-
-            // Internal Observer for Replay
-            const animObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('reveal-active');
-                    } else {
-                        entry.target.classList.remove('reveal-active'); // Replay logic
-                    }
-                });
-            }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
-
-            document.querySelectorAll('.processed').forEach(el => animObserver.observe(el));
         }
 
+        // Close details when clicking anywhere outside the card
+        document.addEventListener('click', (e) => {
+            const activeCards = document.querySelectorAll('.image-card.show-details');
+            activeCards.forEach(card => {
+                if (!card.contains(e.target)) {
+                    card.classList.remove('show-details');
+                }
+            });
+        });
+
+        // Lightbox
+        document.querySelectorAll('.slide-item img').forEach(img => {
+            img.addEventListener('click', () => {
+                const lb = document.getElementById('mainLightbox');
+                const lbImg = document.getElementById('lightboxImg');
+                lbImg.src = img.src;
+                lb.classList.add('active');
+            });
+        });
+
+        document.getElementById('closeLightbox').addEventListener('click', () => {
+            document.getElementById('mainLightbox').classList.remove('active');
+        });
+
+        // Entrance Animation Observer
         document.addEventListener('DOMContentLoaded', () => {
-
-            // 1. Initialize Gaming Text Animation
-            setupGamingTextAnimation();
-
-            // 2. REPEATABLE OBSERVER for Content Blocks
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach((entry) => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('active');
-                    } else {
-                        entry.target.classList.remove('active');
                     }
                 });
-            }, { threshold: 0.15 });
+            }, { threshold: 0.1 });
 
-            // Select all elements to be revealed
-            document.querySelectorAll('.hero-content, .hero-visual, .image-card, .reveal').forEach((el) => {
+            document.querySelectorAll('.hero-content, .hero-visual, .image-card').forEach((el) => {
                 observer.observe(el);
             });
 
-            // 3. SCROLL-BASED EFFECTS
+            // Parallax Scroll for Warrior
             window.addEventListener('scroll', () => {
-                const scrollPos = window.scrollY;
-
-                // Navbar Effect
-                const nav = document.querySelector('.navbar');
-                if (nav) {
-                    scrollPos > 50 ? nav.classList.add('scrolled') : nav.classList.remove('scrolled');
-                }
-
-                // Warrior Image Parallax
                 const warrior = document.getElementById('warrior-hero');
                 if (warrior) {
-                    warrior.style.transform = `translateY(${scrollPos * 0.4}px)`;
+                    const scrollPos = window.scrollY;
+                    // Using translate3d for hardware acceleration
+                    warrior.style.transform = `translate3d(0, ${scrollPos * 0.3}px, 0)`;
                 }
             });
-        }); 
-    </script>
+        });
 
-    {% include 'base/footer.html' %}
-    <script src="{% static 'js/script.js' %}"></script>
+        // Advanced Text Reveal System (Supports Nested Spans)
+        function setupGamingTextAnimation() {
+            const targets = document.querySelectorAll('.hero-title, .hero-tag, .section-title');
+
+            targets.forEach(el => {
+                let charIndex = 0;
+
+                function processNode(node) {
+                    if (node.nodeType === 3) { // Text Node
+                        const text = node.textContent;
+                        const frag = document.createDocumentFragment();
+                        [...text].forEach(char => {
+                            const span = document.createElement('span');
+                            span.textContent = char;
+                            span.className = 'gaming-char';
+                            span.style.setProperty('--i', charIndex++);
+                            frag.appendChild(span);
+                        });
+                        node.parentNode.replaceChild(frag, node);
+                    } else if (node.nodeType === 1) { // Element Node
+                        [...node.childNodes].forEach(child => processNode(child));
+                    }
+                }
+
+                [...el.childNodes].forEach(child => processNode(child));
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) el.classList.add('reveal-active');
+                    });
+                }, { threshold: 0.1 });
+                observer.observe(el);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', setupGamingTextAnimation);
+    </script>
 </body>
 
 </html>

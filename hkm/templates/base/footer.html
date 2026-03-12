@@ -291,6 +291,13 @@
         }
     }
 
+    /* Word-wrap element reset — prevents mid-word line breaks */
+    w-wrap {
+        display: inline;
+        white-space: nowrap;
+        color: inherit;
+    }
+
     @media (max-width: 768px) {
         .footer-bottom {
             flex-direction: column;
@@ -321,11 +328,14 @@
                 Game Design, VFX, and more. ISO&nbsp;9001:2015 Certified.
             </p>
             <div class="social-links">
-                <a href="https://www.facebook.com/harikrushnamultimedia/" class="social-icon" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.facebook.com/harikrushnamultimedia/" class="social-icon" title="Facebook"><i
+                        class="fab fa-facebook-f"></i></a>
                 <a href="https://www.instagram.com/harikrushna_multimedia?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
                     class="social-icon" title="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="https://www.youtube.com/@HarikrushnaMultimediaInstitute" class="social-icon" title="YouTube"><i class="fab fa-youtube"></i></a>
-                <a href="https://www.linkedin.com/company/harikrushna-multimedia-institute/?originalSubdomain=in" class="social-icon" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.youtube.com/@HarikrushnaMultimediaInstitute" class="social-icon" title="YouTube"><i
+                        class="fab fa-youtube"></i></a>
+                <a href="https://www.linkedin.com/company/harikrushna-multimedia-institute/?originalSubdomain=in"
+                    class="social-icon" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
             </div>
         </div>
 
@@ -410,7 +420,70 @@
 
 </footer>
 
+<!-- Custom Cursor — placed OUTSIDE footer to avoid overflow:hidden clipping -->
+<div class="cursor-arrow"></div>
+<div class="mouseCursor cursor-outer"></div>
+<div class="mouseCursor cursor-inner"></div>
+
+<script>
+    (function () {
+        var arrow = document.querySelector(".cursor-arrow");
+        var inner = document.querySelector(".cursor-inner");
+        var outer = document.querySelector(".cursor-outer");
+        if (!inner || !outer || !arrow) return;
+
+        var lastSmokeTime = 0;
+
+        document.addEventListener("mousemove", function (e) {
+            // Make all cursors visible on first move
+            inner.style.visibility = "visible";
+            outer.style.visibility = "visible";
+            arrow.style.visibility = "visible";
+
+            var x = e.clientX;
+            var y = e.clientY;
+
+            // Arrow snaps instantly (no transition) — exact cursor tip
+            arrow.style.transform = "translate(" + x + "px, " + y + "px)";
+
+            // Inner dot & outer ring follow with CSS transition delay (trailing effect)
+            inner.style.transform = "translate(" + x + "px, " + y + "px)";
+            outer.style.transform = "translate(" + x + "px, " + y + "px)";
+
+            // Smoke glow trail (~50fps throttled)
+            var now = Date.now();
+            if (now - lastSmokeTime > 20) {
+                var smoke = document.createElement("div");
+                smoke.className = "cursor-smoke";
+                smoke.style.left = (e.pageX - 30) + "px";
+                smoke.style.top = (e.pageY - 30) + "px";
+                document.body.appendChild(smoke);
+                lastSmokeTime = now;
+                setTimeout(function () { smoke.remove(); }, 1000);
+            }
+        });
+
+        // Hover expand effect on interactive elements
+        var interactive = "a, button, input[type='submit'], .card, .enroll-btn1, .enroll-btn2, .enroll-btn3, .enroll-now-btn, .visit-link, .view-detail-btn, .c-nav-btn";
+
+        document.addEventListener("mouseover", function (e) {
+            if (e.target.closest(interactive)) {
+                inner.classList.add("cursor-hover");
+                outer.classList.add("cursor-hover");
+            }
+        });
+
+        document.addEventListener("mouseout", function (e) {
+            if (e.target.closest(interactive)) {
+                inner.classList.remove("cursor-hover");
+                outer.classList.remove("cursor-hover");
+            }
+        });
+    })();
+</script>
+
 <!-- INTERNAL JS -->
+
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -423,15 +496,26 @@
             const text = el.textContent.trim();
             if (!text) return;
             el.innerHTML = "";
-            [...text].forEach((char, index) => {
-                if (char === " ") {
-                    el.appendChild(document.createTextNode(" "));
+
+            // Split into words and whitespace, wrap each word in <w-wrap>
+            const tokens = text.split(/( +)/);
+            let charIndex = 0;
+
+            tokens.forEach(token => {
+                if (!token) return;
+                if (/^ +$/.test(token)) {
+                    el.appendChild(document.createTextNode(token));
                 } else {
-                    const span = document.createElement("span");
-                    span.className = "gaming-char";
-                    span.textContent = char;
-                    span.style.setProperty("--i", index);
-                    el.appendChild(span);
+                    const wrap = document.createElement("w-wrap");
+                    [...token].forEach(char => {
+                        const span = document.createElement("span");
+                        span.className = "gaming-char";
+                        span.textContent = char;
+                        span.style.cssText = "color: inherit !important";
+                        span.style.setProperty("--i", charIndex++);
+                        wrap.appendChild(span);
+                    });
+                    el.appendChild(wrap);
                 }
             });
         });

@@ -1,9 +1,15 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Event
-# Create your views here.
+
 def events_home(request):
-    # Get only the latest 6 events, ordered by most recent date first
-    events = Event.objects.all().order_by('-event_date')[:6]
+    events = Event.objects.all().prefetch_related('images').order_by('-event_date')
     return render(request, 'pages/event.html', {'events': events})
-    
+
+def event_detail(request, slug):
+    event = get_object_or_404(Event, slug=slug)
+    images = event.images.all()
+    return render(request, 'pages/event_detail.html', {
+        'event': event,
+        'images': images
+    })
 

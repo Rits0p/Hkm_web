@@ -103,7 +103,8 @@ function setupGamingTextAnimation() {
         .tag-line:not(.processed),
         .section-tagline:not(.processed),
         .btn-primary:not(.processed),
-        .left-content p:not(.processed)
+        .left-content p:not(.processed),
+        .portfolio-container:not(.processed)
       `);
 
   // Use IntersectionObserver to process only when visible
@@ -123,7 +124,7 @@ function processElement(el) {
   if (el.classList.contains('processed')) return;
   el.classList.add('processed');
 
-  // Active state observer
+  // Active state observer — toggles reveal-active on scroll in/out
   const activeObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       entry.target.classList.toggle('reveal-active', entry.isIntersecting);
@@ -135,47 +136,64 @@ function processElement(el) {
   const hasManualSpans = el.querySelector('.gaming-char');
   if (hasManualSpans) return;
 
-  const hasNestedSpan = el.querySelector('span');
-  if (hasNestedSpan) {
-    // Walker logic
+  // Global char counter for stagger delay
+  let charIndex = 0;
+
+  // Helper: create one gaming-char span
+  function makeCharSpan(char) {
+    const span = document.createElement('span');
+    span.textContent = char;
+    span.className = 'gaming-char';
+    span.style.cssText = 'color: inherit !important';
+    span.style.setProperty('--i', charIndex++);
+    return span;
+  }
+
+  // Helper: split text into words, wrap each word in <w-wrap>
+  function wrapTextWithWords(text) {
+    const frag = document.createDocumentFragment();
+    const tokens = text.split(/( +)/); // keep spaces as separate tokens
+
+    tokens.forEach(token => {
+      if (!token) return;
+      if (/^ +$/.test(token)) {
+        // Pure whitespace — keep as plain text node
+        frag.appendChild(document.createTextNode(token));
+      } else {
+        // Word — wrap its char-spans in <w-wrap> (no line-break mid-word)
+        const wrap = document.createElement('w-wrap');
+        [...token].forEach(char => wrap.appendChild(makeCharSpan(char)));
+        frag.appendChild(wrap);
+      }
+    });
+    return frag;
+  }
+
+  // --- Determine processing path ---
+  const hasNestedElements = el.querySelector('span, strong, em, a, b, i, br');
+
+  if (hasNestedElements) {
+    // Walk all text nodes inside the element tree
     const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
     const textNodes = [];
     let node;
     while (node = walker.nextNode()) {
-      if (node.textContent.trim().length > 0) textNodes.push(node);
+      if (node.textContent.length > 0 && !/^\s*[\r\n]+\s*$/.test(node.textContent)) {
+        textNodes.push(node);
+      }
     }
 
-    let charIndex = 0;
     textNodes.forEach(textNode => {
-      const fragment = document.createDocumentFragment();
-      [...textNode.textContent].forEach(char => {
-        if (char === ' ') {
-          fragment.appendChild(document.createTextNode(' '));
-        } else {
-          const span = document.createElement('span');
-          span.textContent = char;
-          span.className = 'gaming-char';
-          span.style.setProperty('--i', charIndex++);
-          fragment.appendChild(span);
-        }
-      });
-      textNode.parentNode.replaceChild(fragment, textNode);
+      const text = textNode.textContent;
+      if (text.trim().length === 0) return;         // skip whitespace-only
+      const frag = wrapTextWithWords(text);
+      textNode.parentNode.replaceChild(frag, textNode);
     });
   } else {
-    // Simple logic
+    // Simple case — element only has direct text
     const text = el.textContent.trim();
     el.innerHTML = '';
-    [...text].forEach((char, index) => {
-      if (char === ' ') {
-        el.appendChild(document.createTextNode(' '));
-      } else {
-        const span = document.createElement('span');
-        span.textContent = char;
-        span.className = 'gaming-char';
-        span.style.setProperty('--i', index);
-        el.appendChild(span);
-      }
-    });
+    el.appendChild(wrapTextWithWords(text));
   }
 }
 

@@ -256,6 +256,7 @@ body {
   display: flex;
   align-items: center;
   overflow: hidden;
+  padding-top: 100px;
 }
 
 .bg-image {
@@ -757,10 +758,41 @@ body {
   }
 }
 
-/* Enhanced Description with Professional Glass */
+/* Hero Description — Glassmorphic Card */
+p.hero-desc-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-left: 4px solid #e63946;
+  padding: 24px 30px;
+  border-radius: 4px 12px 12px 4px;
+  text-align: justify;
+  text-justify: inter-word;
+  color: #cbd5e1;
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  line-height: 1.6;
+  max-width: 600px;
+  margin-bottom: 2.5rem;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: all 0.4s ease;
+}
+
+p.hero-desc-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-left-color: #ff4d5a;
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transform: translateX(5px);
+}
+
+/* Legacy fallback — keep .hero-description for any pages still using it */
 .hero-description {
   position: relative;
-  background: linear-gradient(135deg, rgba(29, 53, 87, 0.4) 0%, rgba(10, 10, 12, 0.6) 100%);
+  background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   padding: 24px 28px;
@@ -774,7 +806,7 @@ body {
 }
 
 .hero-description:hover {
-  background: linear-gradient(135deg, rgba(29, 53, 87, 0.5) 0%, rgba(10, 10, 12, 0.7) 100%);
+  background: rgba(255, 255, 255, 0.08);
   border-left-color: rgba(230, 57, 70, 0.9);
   box-shadow:
     0 12px 40px rgba(0, 0, 0, 0.4),
@@ -1715,13 +1747,13 @@ body {
   position: absolute;
   width: 100%;
   height: 100%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: radial-gradient(circle at center,
-      rgba(230, 57, 70, 0.15) 0%,
-      rgba(27, 62, 112, 0.05) 50%,
-      transparent 80%);
+  top: 0;
+  left: 0;
+  background:
+    radial-gradient(circle at center, rgba(230, 57, 70, 0.15) 0%, rgba(27, 62, 112, 0.05) 50%, transparent 80%),
+    linear-gradient(rgba(230, 57, 70, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(230, 57, 70, 0.05) 1px, transparent 1px);
+  background-size: 100% 100%, 40px 40px, 40px 40px;
   z-index: 1;
   pointer-events: none;
 }
@@ -1769,9 +1801,19 @@ body {
 .portfolio-container {
   display: grid;
   gap: clamp(25px, 3vw, 40px);
-  padding: clamp(40px, 6vw, 60px) 0;
-  max-width: 100%;
+  padding: clamp(40px, 6vw, 60px) clamp(20px, 5vw, 40px) clamp(100px, 15vw, 160px);
+  max-width: 1400px;
+  margin: 0 auto;
   justify-items: center;
+  border: 2px solid rgba(230, 57, 70, 0.2);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.02);
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.portfolio-container.reveal-active {
+  border-color: var(--primary-red);
+  box-shadow: 0 0 30px rgba(230, 57, 70, 0.4), inset 0 0 20px rgba(230, 57, 70, 0.1);
 }
 
 /* Large Desktop: 3 cards in one row */
@@ -2181,10 +2223,12 @@ body {
     ══════════════════════════════════════════════════════════════════ */
 
 .placed-students-section {
-  background: linear-gradient(rgba(11, 13, 17, 0.92),
-      rgba(11, 13, 17, 0.92)),
+  background:
+    linear-gradient(rgba(230, 57, 70, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(230, 57, 70, 0.07) 1px, transparent 1px),
+    linear-gradient(rgba(11, 13, 17, 0.92), rgba(11, 13, 17, 0.92)),
     url('../images/game-01.jpg');
-  background-size: cover;
+  background-size: 40px 40px, 40px 40px, 100% 100%, cover;
   background-position: center;
   background-attachment: fixed;
   padding: clamp(80px, 15vw, 120px) 0;
@@ -2193,12 +2237,14 @@ body {
   overflow: hidden;
   position: relative;
 }
-.usp{
+
+.usp {
   font-family: 'Oswald', sans-serif;
   color: #ffffff;
   margin-bottom: 10px;
   font-size: clamp(1.1rem, 2vw, 1.3rem);
 }
+
 .placed-students-header {
   display: flex;
   justify-content: space-between;
@@ -2940,9 +2986,13 @@ body {
 
 /* FIX: Force direct child animation characters to inherit parent color (White) */
 h2>.gaming-char,
+h2>w-wrap>.gaming-char,
 .about-text h2>.gaming-char,
+.about-text h2>w-wrap>.gaming-char,
 .course-header h2>.gaming-char,
-.testimonial-header h2>.gaming-char {
+.course-header h2>w-wrap>.gaming-char,
+.testimonial-header h2>.gaming-char,
+.testimonial-header h2>w-wrap>.gaming-char {
   color: inherit !important;
 }
 
@@ -2968,4 +3018,364 @@ h2 span:not(.gaming-char) {
 /* About Cards H3: "Why Choose Us?", "Our Mission" -> Red */
 .about-card h3 {
   color: var(--primary-red);
+}
+
+/* ══════════════════════════════════════════════════════════════════
+       WORD-WRAP ELEMENT RESETS (w-wrap / v-word)
+    ══════════════════════════════════════════════════════════════════ */
+
+w-wrap,
+v-word {
+  display: inline;
+  white-space: nowrap;
+  color: inherit;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+       INSTITUTE GALLERY SECTION
+    ══════════════════════════════════════════════════════════════════ */
+
+.gallery-section {
+  padding: 80px 5%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.gallery-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.gallery-header .section-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.gallery-header .section-title span {
+  color: var(--primary-red);
+}
+
+/* Masonry-like responsive grid */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 220px;
+  gap: 12px;
+}
+
+/* Every 5th item spans 2 columns to create masonry feel */
+.gallery-item:nth-child(5n+1) {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  cursor: none;
+  border: 1px solid rgba(230, 57, 70, 0.15);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gallery-item:hover {
+  border-color: rgba(230, 57, 70, 0.6);
+  box-shadow: 0 0 20px rgba(230, 57, 70, 0.2);
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.gallery-item:hover img {
+  transform: scale(1.08);
+}
+
+/* Hover overlay with caption */
+.gallery-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(8, 9, 11, 0.9) 0%, rgba(8, 9, 11, 0.2) 50%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  padding: 18px 20px;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.gallery-item:hover .gallery-overlay {
+  opacity: 1;
+}
+
+.gallery-caption {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.95rem;
+  color: #fff;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  line-height: 1.3;
+}
+
+.gallery-zoom-icon {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 36px;
+  height: 36px;
+  background: rgba(230, 57, 70, 0.85);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  color: #fff;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.gallery-item:hover .gallery-zoom-icon {
+  transform: scale(1.15);
+  background: var(--primary-red);
+}
+
+/* Gallery Lightbox */
+.gallery-lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.95);
+  z-index: 99999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(6px);
+}
+
+.gallery-lightbox.active {
+  display: flex;
+}
+
+.gallery-lb-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.gallery-lb-content img {
+  max-width: 90vw;
+  max-height: 80vh;
+  object-fit: contain;
+  border: 2px solid var(--primary-red);
+  border-radius: 4px;
+  box-shadow: 0 0 40px rgba(230, 57, 70, 0.25);
+}
+
+.gallery-lb-caption {
+  color: rgba(255, 255, 255, 0.8);
+  font-family: 'Oswald', sans-serif;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.gallery-lb-close {
+  position: absolute;
+  top: -50px;
+  right: 0;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.gallery-lb-close:hover {
+  background: var(--primary-red);
+  border-color: var(--primary-red);
+}
+
+/* Responsive Gallery */
+@media (max-width: 1024px) {
+  .gallery-grid {
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 180px;
+  }
+
+  .gallery-item:nth-child(5n+1) {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery-grid {
+    grid-template-columns: 1fr;
+    grid-auto-rows: 220px;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+       CUSTOM PREMIUM CURSOR (PUBZI INSPIRED)
+    ══════════════════════════════════════════════════════════════════ */
+
+.mouseCursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  border-radius: 50%;
+  transform: translateZ(0);
+  visibility: hidden;
+  z-index: 10000000;
+}
+
+/* Arrow Pointer — snaps instantly to cursor tip */
+.cursor-arrow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 12px;
+  height: 15px;
+  /* Classic OS cursor arrow drawn with clip-path */
+  background: #ffffff;
+  clip-path: polygon(0% 0%, 0% 100%, 32% 74%, 48% 100%, 62% 94%, 46% 68%, 100% 68%);
+  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.85)) drop-shadow(0 0 6px rgba(230, 57, 70, 0.5));
+  pointer-events: none;
+  z-index: 10000002;
+  /* always on top */
+  visibility: hidden;
+  transform-origin: top left;
+  /* NO transition — arrow must be instant/exact */
+  transition: none;
+}
+
+.cursor-inner {
+  margin-left: -7px;
+  margin-top: -7px;
+  width: 14px;
+  height: 14px;
+  z-index: 10000001;
+  background-color: var(--primary-red);
+  box-shadow: 0 0 12px var(--primary-red);
+  opacity: 1;
+  /* Fast follow logic */
+  transition: transform 0.24s ease-out, width 0.3s ease-out, height 0.3s ease-out, margin 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+.cursor-outer {
+  margin-left: -22px;
+  margin-top: -22px;
+  width: 44px;
+  height: 44px;
+  border: 1.5px solid var(--primary-red);
+  box-sizing: border-box;
+  z-index: 10000000;
+  opacity: 0.4;
+  /* Slower follow creates the trail / backside effect */
+  transition: transform 0.4s ease-out, opacity 0.3s ease-out;
+}
+
+/* Smoke Particle Trail — original wispy rising smoke */
+.cursor-smoke {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(rgba(230, 57, 70, 0) 30%, rgba(230, 57, 70, 0.85) 100%);
+  pointer-events: none;
+  border-radius: 50%;
+  filter: blur(2px);
+  opacity: 0.65;
+  z-index: 9999999;
+  animation: fadeOutSmoke 0.9s ease-out forwards;
+}
+
+@keyframes fadeOutSmoke {
+  0% {
+    transform: scale(1) translateY(0px);
+    opacity: 0.7;
+  }
+
+  100% {
+    transform: scale(2) translateY(-20px);
+    opacity: 0;
+  }
+}
+
+/* Hover State for links, buttons, and interactive cards */
+.cursor-inner.cursor-hover {
+  margin-left: -22px;
+  margin-top: -22px;
+  width: 44px;
+  height: 44px;
+  opacity: 0.15;
+  background-color: var(--primary-red);
+  box-shadow: 0 0 25px var(--primary-red);
+}
+
+.cursor-outer.cursor-hover {
+  margin-left: -32px;
+  margin-top: -32px;
+  width: 64px;
+  height: 64px;
+  opacity: 0.12;
+  background-color: rgba(230, 57, 70, 0.05);
+  border-color: var(--primary-red);
+}
+
+/* Hide default cursor on desktop when custom cursor is active */
+@media (min-width: 1024px) {
+
+  body,
+  a,
+  button,
+  [role="button"],
+  .card,
+  .enroll-btn1,
+  .enroll-btn2,
+  .enroll-btn3,
+  .enroll-now-btn,
+  .visit-link,
+  .view-detail-btn {
+    cursor: none !important;
+  }
+}
+
+/* Make sure the custom cursor is hidden on mobile/touch devices */
+@media (max-width: 1023px) {
+
+  .mouseCursor,
+  .cursor-smoke,
+  .cursor-arrow {
+    display: none !important;
+  }
+
+  body {
+    cursor: auto !important;
+  }
 }

@@ -1091,13 +1091,18 @@
       }
     }
 
+    w-wrap {
+      display: inline-block;
+      white-space: nowrap;
+      color: inherit;
+    }
+
     .gaming-char {
       display: inline-block !important;
       /* FIX: Override conflicting block display */
       opacity: 0;
       transform: translateY(100%) rotateX(-90deg);
       transform-origin: bottom center;
-      /* white-space: pre; <-- Removed to fix wrapping issues */
       will-change: transform, opacity, filter;
       color: inherit;
       text-shadow: inherit;
@@ -1434,67 +1439,57 @@
         const hasManualSpans = el.querySelector('.gaming-char');
 
         if (!hasManualSpans) {
-          const originalHTML = el.innerHTML;
-          const hasNestedSpan = el.querySelector('span');
+          let charIndex = 0;
+
+          // Helper: create one char span
+          function makeCharSpan(char) {
+            const span = document.createElement('span');
+            span.textContent = char;
+            span.className = 'gaming-char';
+            span.style.cssText = 'color: inherit !important';
+            span.style.setProperty('--i', charIndex++);
+            return span;
+          }
+
+          // Helper: wrap words
+          function wrapTextWithWords(text) {
+            const frag = document.createDocumentFragment();
+            const tokens = text.split(/( +)/);
+            tokens.forEach(token => {
+              if (!token) return;
+              if (/^ +$/.test(token)) {
+                frag.appendChild(document.createTextNode(token));
+              } else {
+                const wrap = document.createElement('w-wrap');
+                [...token].forEach(char => wrap.appendChild(makeCharSpan(char)));
+                frag.appendChild(wrap);
+              }
+            });
+            return frag;
+          }
+
+          const hasNestedSpan = el.querySelector('span, strong, em, b, i, a, br');
 
           if (hasNestedSpan) {
-            // Complex case: nested spans (like headers with colors)
-            const walker = document.createTreeWalker(
-              el,
-              NodeFilter.SHOW_TEXT,
-              null,
-              false
-            );
-
+            const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
             const textNodes = [];
             let node;
             while (node = walker.nextNode()) {
-              if (node.textContent.length > 0 && !/^\s*[\r\n]+\s*$/.test(node.textContent)) {
+              if (node.textContent.trim().length > 0) {
                 textNodes.push(node);
               }
             }
 
-            let charIndex = 0;
             textNodes.forEach(textNode => {
               const text = textNode.textContent;
-              const fragment = document.createDocumentFragment();
-
-              [...text].forEach((char) => {
-                if (/[\r\n\t]/.test(char)) {
-                  fragment.appendChild(document.createTextNode(char));
-                  return;
-                }
-
-                if (char === ' ') {
-                  fragment.appendChild(document.createTextNode(' '));
-                  charIndex++;
-                } else {
-                  const span = document.createElement('span');
-                  span.textContent = char;
-                  span.className = 'gaming-char';
-                  span.style.setProperty('--i', charIndex);
-                  fragment.appendChild(span);
-                  charIndex++;
-                }
-              });
-
-              textNode.parentNode.replaceChild(fragment, textNode);
+              if (text.trim().length === 0) return;
+              const frag = wrapTextWithWords(text);
+              textNode.parentNode.replaceChild(frag, textNode);
             });
           } else {
-            // Simple text wrapping
             const text = el.textContent.trim();
             el.innerHTML = '';
-            [...text].forEach((char, index) => {
-              if (char === ' ') {
-                el.appendChild(document.createTextNode(' '));
-              } else {
-                const span = document.createElement('span');
-                span.textContent = char;
-                span.className = 'gaming-char';
-                span.style.setProperty('--i', index);
-                el.appendChild(span);
-              }
-            });
+            el.appendChild(wrapTextWithWords(text));
           }
         }
       });
