@@ -15,6 +15,17 @@ if (menuToggle) {
   });
 }
 
+// Navbar Scroll Effect
+window.addEventListener('scroll', () => {
+  if (navbar) {
+    if (window.scrollY > 50) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
+  }
+}, { passive: true });
+
 // Optimization: Pre-calculate measurements to avoid layout thrashing during scroll
 let measurements = {
   windowHeight: window.innerHeight,
