@@ -456,6 +456,415 @@
         </div>
     </section>
 
+    <!-- ══════════════════════════════════════════════════════════════════
+         STUDENT WORK SECTION
+    ══════════════════════════════════════════════════════════════════ -->
+    <style>
+        .student-work-section {
+            padding: 80px 5%;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+        .student-work-header {
+            margin-bottom: 40px;
+        }
+        .student-work-header .tag-line {
+            font-family: var(--heading-font, 'Oswald', sans-serif);
+            color: var(--primary-red, #e63946);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .student-work-header .section-title {
+            font-family: var(--heading-font, 'Oswald', sans-serif);
+            font-size: 3.2rem;
+            text-transform: uppercase;
+            margin: 0;
+            line-height: 1.2;
+        }
+        .student-work-header .section-title span {
+            color: var(--primary-red, #e63946);
+        }
+        .student-work-header .section-tagline {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.5);
+            margin-top: 5px;
+        }
+        .sw-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 40px;
+        }
+        .sw-card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            height: 500px;
+        }
+        .sw-visual-area {
+            position: relative;
+            flex: 1;
+            background: #0f1012;
+            overflow: hidden;
+            clip-path: polygon(20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 20px);
+        }
+        .sw-border {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--primary-red, #e63946), #ff4d5a);
+            padding: 2px;
+            clip-path: inherit;
+            z-index: 8;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            -webkit-mask-composite: xor;
+            pointer-events: none;
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+        .sw-card:hover .sw-border {
+            opacity: 1;
+            box-shadow: 0 0 15px rgba(230, 57, 70, 0.3);
+        }
+        /* Slider */
+        .sw-slider-container {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            overflow: hidden;
+        }
+        .sw-slider-inner {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .sw-slide-item {
+            flex: 0 0 100%;
+            height: 100%;
+            position: relative;
+        }
+        .sw-slide-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.7);
+        }
+        /* Slider Nav */
+        .sw-card-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 15px;
+            z-index: 10;
+            pointer-events: none;
+            transform: translateY(-50%);
+            box-sizing: border-box;
+        }
+        .sw-nav-btn {
+            width: 40px;
+            height: 40px;
+            background: rgba(230, 57, 70, 0.8);
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            pointer-events: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+        }
+        /* Label */
+        .sw-label {
+            position: absolute;
+            inset: auto 0 0 0;
+            padding: 30px;
+            background: linear-gradient(transparent, rgba(8, 9, 11, 0.95));
+            z-index: 5;
+        }
+        .sw-label span {
+            color: var(--primary-red, #e63946);
+            font-family: var(--heading-font, 'Oswald', sans-serif);
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+        }
+        .sw-label h3 {
+            font-family: var(--heading-font, 'Oswald', sans-serif);
+            font-size: 1.8rem;
+            margin-top: 5px;
+        }
+        /* Card Actions */
+        .sw-card-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .sw-action-btn {
+            background: #15171a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 16px 10px;
+            text-align: center;
+            text-decoration: none;
+            font-family: var(--heading-font, 'Oswald', sans-serif);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            flex: 1;
+            font-size: 0.85rem;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .sw-action-btn:hover {
+            background: var(--primary-red, #e63946);
+            color: #fff;
+            border-color: var(--primary-red, #e63946);
+        }
+        /* Details Overlay */
+        .sw-details-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(8, 9, 11, 0.96);
+            backdrop-filter: blur(5px);
+            z-index: 25;
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(1.05);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            pointer-events: none;
+        }
+        .sw-card.show-details .sw-details-overlay {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+        .sw-details-header {
+            border-bottom: 2px solid var(--primary-red, #e63946);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        .sw-details-header h4 {
+            font-family: var(--heading-font, 'Oswald', sans-serif);
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            margin: 0;
+            color: var(--primary-red, #e63946);
+        }
+        .sw-details-content {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 25px;
+            overflow-y: auto;
+            max-height: 200px;
+        }
+        .sw-close-details-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 8px 15px;
+            font-family: var(--heading-font, 'Oswald', sans-serif);
+            cursor: pointer;
+            width: fit-content;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+        .sw-close-details-btn:hover {
+            border-color: var(--primary-red, #e63946);
+            color: var(--primary-red, #e63946);
+        }
+        /* Lightbox */
+        .sw-lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        .sw-lightbox.active { display: flex; }
+        .sw-lightbox-content {
+            max-width: 90%;
+            max-height: 80vh;
+            position: relative;
+            border: 2px solid var(--primary-red, #e63946);
+        }
+        .sw-lightbox-img {
+            max-width: 100%;
+            max-height: 80vh;
+        }
+        .sw-lightbox-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: #fff;
+            font-size: 2rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+        @media (max-width: 768px) {
+            .student-work-section { padding: 60px 4%; }
+            .student-work-header .section-title { font-size: 2.2rem; }
+            .sw-grid { grid-template-columns: 1fr; }
+            .sw-card { height: 400px; }
+        }
+    </style>
+
+    <section class="student-work-section" id="student-work">
+        <div class="student-work-header">
+            <span class="tag-line">STUDENT WORK</span>
+            <h2 class="section-title">Student <span>Work</span></h2>
+            <p class="section-tagline">Explore projects created by our students</p>
+        </div>
+
+        <div class="sw-grid">
+            {% for work in student_works %}
+            <div class="sw-card">
+                <div class="sw-visual-area">
+                    <div class="sw-border"></div>
+
+                    <!-- Details Overlay -->
+                    <div class="sw-details-overlay" id="sw-overlay-{{ work.id }}">
+                        <div class="sw-details-header">
+                            <h4>PROJECT DETAILS</h4>
+                        </div>
+                        <div class="sw-details-content">
+                            {{ work.description|linebreaksbr|default:"No additional details available." }}
+                        </div>
+                        <button class="sw-close-details-btn" onclick="toggleSwDetails(event, '{{ work.id }}')">
+                            CLOSE
+                        </button>
+                    </div>
+
+                    <!-- Slider -->
+                    <div class="sw-slider-container">
+                        <div class="sw-slider-inner" id="sw-slider-{{ work.id }}">
+                            <!-- Thumbnail -->
+                            <div class="sw-slide-item">
+                                {% if work.thumbnail %}
+                                <img src="{{ work.thumbnail.url }}" alt="{{ work.title }}">
+                                {% else %}
+                                <div style="width: 100%; height: 100%; background: #111;"></div>
+                                {% endif %}
+                            </div>
+                            <!-- Gallery Images -->
+                            {% for img in work.images.all %}
+                            <div class="sw-slide-item">
+                                <img src="{{ img.image.url }}" alt="{{ img.alt_text }}">
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    {% if work.images.all.count > 0 %}
+                    <div class="sw-card-nav">
+                        <button class="sw-nav-btn" onclick="moveSwSlider('sw-slider-{{ work.id }}', -1)"><i class="fas fa-chevron-left"></i></button>
+                        <button class="sw-nav-btn" onclick="moveSwSlider('sw-slider-{{ work.id }}', 1)"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    {% endif %}
+
+                    <div class="sw-label">
+                        <span>STUDENT PROJECT</span>
+                        <h3>{{ work.title }}</h3>
+                    </div>
+                </div>
+                <div class="sw-card-actions">
+                    <button type="button" class="sw-action-btn" onclick="openSwLightbox('{{ work.thumbnail.url }}')">
+                        VIEW IMAGE
+                    </button>
+                    <button type="button" class="sw-action-btn" onclick="toggleSwDetails(event, '{{ work.id }}')">
+                        VIEW DETAILS
+                    </button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Student Work Lightbox -->
+    <div class="sw-lightbox" id="swLightbox">
+        <div class="sw-lightbox-content">
+            <button class="sw-lightbox-close" id="swCloseLightbox">&times;</button>
+            <img src="" alt="" class="sw-lightbox-img" id="swLightboxImg">
+        </div>
+    </div>
+
+    <script>
+        // Student Work Slider
+        const swSliderStates = {};
+        function moveSwSlider(id, dir) {
+            if (!swSliderStates[id]) swSliderStates[id] = 0;
+            const slider = document.getElementById(id);
+            const count = slider.children.length;
+            swSliderStates[id] = (swSliderStates[id] + dir + count) % count;
+            slider.style.transform = `translateX(-${swSliderStates[id] * 100}%)`;
+        }
+
+        // Student Work Details Toggle
+        function toggleSwDetails(e, workId) {
+            if (e) { e.preventDefault(); e.stopPropagation(); }
+            const cards = document.querySelectorAll('.sw-card');
+            cards.forEach(card => {
+                if (card.querySelector(`#sw-overlay-${workId}`)) {
+                    card.classList.toggle('show-details');
+                } else {
+                    card.classList.remove('show-details');
+                }
+            });
+        }
+
+        // Close details when clicking outside
+        document.addEventListener('click', (e) => {
+            const activeCards = document.querySelectorAll('.sw-card.show-details');
+            activeCards.forEach(card => {
+                if (!card.contains(e.target)) {
+                    card.classList.remove('show-details');
+                }
+            });
+        });
+
+        // Student Work Lightbox
+        function openSwLightbox(src) {
+            const lb = document.getElementById('swLightbox');
+            const lbImg = document.getElementById('swLightboxImg');
+            lbImg.src = src;
+            lb.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        document.getElementById('swCloseLightbox').addEventListener('click', () => {
+            document.getElementById('swLightbox').classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        document.getElementById('swLightbox').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('swLightbox')) {
+                document.getElementById('swLightbox').classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Lightbox from slider images
+        document.querySelectorAll('.sw-slide-item img').forEach(img => {
+            img.addEventListener('click', () => {
+                openSwLightbox(img.src);
+            });
+        });
+    </script>
+
+
     <section class="placed-students-section">
         <div class="placed-students-header">
             <div class="title-area">

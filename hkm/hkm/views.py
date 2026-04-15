@@ -4,11 +4,12 @@ from django.core.mail import send_mail
 from django.conf import settings
 from apps.contactus.models import ContactMessage
 
-from apps.aboutus.models import Faculty, Portfolio
+from apps.aboutus.models import Faculty, Portfolio, StudentWork
 
 def home(request):
     portfolios = Portfolio.objects.all()
-    return render(request, 'pages/index.html', {'portfolios': portfolios})
+    student_works = StudentWork.objects.all().prefetch_related('images')
+    return render(request, 'pages/index.html', {'portfolios': portfolios, 'student_works': student_works})
 
 def contacts(request):
     if request.method == 'POST':

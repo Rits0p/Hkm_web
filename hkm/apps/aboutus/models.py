@@ -31,3 +31,30 @@ class Portfolio(models.Model):
 
     def __str__(self):
         return self.name
+
+class StudentWork(models.Model):
+    title = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
+    slug = models.SlugField(unique=True, blank=True, null=True)
+    thumbnail = models.ImageField(upload_to='student_work/thumbnails/', help_text="Main preview image for the card")
+    order = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = "Student Work"
+        ordering = ['order', '-created_at']
+
+    def __str__(self):
+        return self.title
+
+class StudentWorkImage(models.Model):
+    student_work = models.ForeignKey(StudentWork, related_name='images', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='student_work/gallery/')
+    alt_text = models.CharField(max_length=255, blank=True)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return f"Image for {self.student_work.title}"
